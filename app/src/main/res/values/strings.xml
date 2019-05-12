@@ -6,4 +6,11 @@
 
     <string name="hint_latitude">Latitude</string>
     <string name="hint_longitude">Longitude</string>
+
+    <!-- Toasts -->
+    <string name="toast_field_is_empty">Field cannot be empty</string>
+    <string name="toast_illegal_format">Field has illegal format</string>
+    <string name="toast_latitude_range">Latitude must be in range [-90;90]</string>
+    <string name="toast_longitude_range">Longitude must be in range [-180;180]</string>
+    <string name="toast_sensors_unavailable">Sensors unavailable</string>
 </resources>

@@ -15,6 +15,7 @@
         <item name="android:background">@drawable/edit_text_background</item>
         <item name="android:inputType">number</item>
         <item name="android:digits">0123456789.-</item>
+        <item name="android:maxLength">9</item>
     </style>
 
 </resources>
