@@ -3,6 +3,7 @@ package com.compass.netguru.netgurucompass
 import android.support.multidex.MultiDexApplication
 import com.compass.netguru.netgurucompass.di.AppComponent
 import com.compass.netguru.netgurucompass.di.AppModule
+import com.compass.netguru.netgurucompass.di.DaggerAppComponent
 
 class App : MultiDexApplication() {
 
