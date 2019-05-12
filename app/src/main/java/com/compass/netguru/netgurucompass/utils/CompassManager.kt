@@ -4,7 +4,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.util.Log
 import javax.inject.Inject
 
 
@@ -62,7 +61,7 @@ class CompassManager @Inject constructor(private val sensorManager: SensorManage
     override fun startListenSensors() {
         if (sensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) == null) {
             if (sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) == null || sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) == null) {
-                noSensorsAlert()
+                callback?.sensorsUnavailable()
             } else {
                 accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
                 magnetometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
@@ -84,10 +83,6 @@ class CompassManager @Inject constructor(private val sensorManager: SensorManage
             if(isRotationSensor)
                 sensorManager?.unregisterListener(this, rotationSensor);
         }
-    }
-
-    fun noSensorsAlert() {
-        Log.e("COMPASS", "NO SENSOR")
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {

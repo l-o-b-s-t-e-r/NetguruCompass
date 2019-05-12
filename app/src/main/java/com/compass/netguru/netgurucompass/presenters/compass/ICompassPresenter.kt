@@ -1,18 +1,23 @@
-package com.compass.netguru.netgurucompass.presenters
+package com.compass.netguru.netgurucompass.presenters.compass
 
+import android.location.Location
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 interface ICompassPresenter {
 
     interface View {
 
-        fun changeCompass(previousAzimuth: Int, newAzimuth: Int)
+        fun changeCompass(newAzimuth: Int)
 
-        fun changeDirection(previousAzimuth: Int, newAzimuth: Int)
+        fun changeDirection(newAzimuth: Int)
+
+        fun showToast(resId: Int)
 
     }
 
     interface Actions {
+
+        var targetLocation: Location?
 
         var view: View?
 

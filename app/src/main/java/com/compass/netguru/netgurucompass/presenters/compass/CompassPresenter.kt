@@ -1,11 +1,11 @@
-package com.compass.netguru.netgurucompass.presenters
+package com.compass.netguru.netgurucompass.presenters.compass
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
+import com.compass.netguru.netgurucompass.R
 import com.compass.netguru.netgurucompass.utils.CompassCallback
 import com.compass.netguru.netgurucompass.utils.ICompassManager
-import com.compass.netguru.netgurucompass.utils.Location
 import com.google.android.gms.location.LocationRequest
 import com.patloew.rxlocation.RxLocation
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -21,20 +21,11 @@ class CompassPresenter @Inject constructor(
 ) : ICompassPresenter.Actions, CompassCallback {
 
     override var view: ICompassPresenter.View? = null
+    override var targetLocation: Location? = null
 
     private val locationRequest: LocationRequest
     private var locationDisposable: Disposable? = null
-    private var previousDirectionAzimuth = 0
-    private var currentDirectionAzimuth = 0
-    private var currentAzimuth = 0
-    private val destLocation = Location(51.148829, 17.078417) //Север
-    //val destLocation = Location(51.136459, 17.029354) //Северо-Запад
-    //val destLocation = Location(51.104407, 16.971289) //Запад
-    //val destLocation = Location(51.073940, 17.010647) //Юго-Запад
-    //val destLocation = Location(51.078562, 17.085919) //Юг
-    //val destLocation = Location(51.078648, 17.135571) //Юго-Восток
-    //val destLocation = Location(51.101579, 17.157336) //Восток
-    //val destLocation = Location(51.136371, 17.141814) //Северо-Восток
+    private var currentDirectionAzimuth: Int? = null
 
     init {
         locationRequest = LocationRequest.create()
@@ -53,10 +44,10 @@ class CompassPresenter @Inject constructor(
     }
 
     override fun onAzimuthChanged(previousAzimuth: Int, newAzimuth: Int) {
-        view?.changeCompass(previousAzimuth, newAzimuth)
-        view?.changeDirection(previousDirectionAzimuth, newAzimuth + currentDirectionAzimuth)
-        currentAzimuth = newAzimuth
-        previousDirectionAzimuth = newAzimuth + currentDirectionAzimuth
+        view?.changeCompass(newAzimuth)
+        if (targetLocation != null && currentDirectionAzimuth != null) {
+            view?.changeDirection(newAzimuth + currentDirectionAzimuth!!)
+        }
     }
 
     override fun loadCurrentLocation(rxPermissions: RxPermissions) {
@@ -64,8 +55,7 @@ class CompassPresenter @Inject constructor(
             locationDisposable = rxLocation.settings().checkAndHandleResolution(locationRequest)
                 .flatMapObservable { isSuccess -> getLocationObservable(isSuccess) }
                 .subscribe({ location ->
-                    currentDirectionAzimuth = convertToAbsoluteAzimuth(location.bearingTo(destLocation).toInt())
-                    previousDirectionAzimuth = currentAzimuth + currentDirectionAzimuth
+                    currentDirectionAzimuth = convertToAbsoluteAzimuth(location.bearingTo(targetLocation).toInt())
                 }, { e ->
                     e.printStackTrace()
                 })
@@ -92,6 +82,10 @@ class CompassPresenter @Inject constructor(
         } else {
             360 - azimuth
         }
+    }
+
+    override fun sensorsUnavailable() {
+        view?.showToast(R.string.toast_sensors_unavailable)
     }
 
     override fun dispose() {

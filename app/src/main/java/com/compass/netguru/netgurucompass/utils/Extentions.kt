@@ -1,10 +1,11 @@
 package com.compass.netguru.netgurucompass.utils
 
 import android.location.Location
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.Interpolator
-import android.view.animation.RotateAnimation
+import android.support.v4.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
+import android.widget.Toast
 
 fun Location(lat: Double, lng: Double): Location {
     return Location("").apply {
@@ -13,19 +14,20 @@ fun Location(lat: Double, lng: Double): Location {
     }
 }
 
-fun View.startRotateAnimation(fromDegrees: Int, toDegrees: Int, duration: Long, interpolator: Interpolator, fillAfter: Boolean = true) {
-    val rotateAnimation = RotateAnimation(
-        -fromDegrees.toFloat(),
-        -toDegrees.toFloat(),
-        Animation.RELATIVE_TO_SELF,
-        0.5f,
-        Animation.RELATIVE_TO_SELF,
-        0.5f
-    ).also {
-        it.duration = duration
-        it.interpolator = interpolator
-        it.fillAfter = fillAfter
-    }
+fun EditText.setOnTextChangeListener(action: () -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
 
-    this.startAnimation(rotateAnimation)
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            action.invoke()
+        }
+    })
+}
+
+fun Fragment.showLongToast(resId: Int) {
+    Toast.makeText(context, resId, Toast.LENGTH_LONG).show()
 }

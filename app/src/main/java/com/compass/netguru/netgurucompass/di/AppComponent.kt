@@ -1,6 +1,6 @@
 package com.compass.netguru.netgurucompass.di
 
-import com.compass.netguru.netgurucompass.ui.CompassFragment
+import com.compass.netguru.netgurucompass.ui.compass.CompassFragment
 import dagger.Component
 import javax.inject.Singleton
 
