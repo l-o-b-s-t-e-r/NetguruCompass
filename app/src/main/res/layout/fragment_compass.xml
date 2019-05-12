@@ -7,13 +7,34 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
-    <TextView
+    <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/arrow"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/compass"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+            android:id="@+id/compass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
+            android:src="@drawable/compass"
+            android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+            android:id="@+id/direction"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/compass_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/compass"
+            app:layout_constraintLeft_toLeftOf="@id/compass"
+            app:layout_constraintRight_toRightOf="@id/compass"
+            app:layout_constraintTop_toTopOf="@id/compass"/>
 
 </android.support.constraint.ConstraintLayout>
