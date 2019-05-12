@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">NetguruCompass</string>
+
+    <string name="btn_target_location">Set target location</string>
+    <string name="btn_apply">Apply</string>
+
+    <string name="hint_latitude">Latitude</string>
+    <string name="hint_longitude">Longitude</string>
 </resources>
